@@ -1,0 +1,12 @@
+<!-- Form that uploads a file of at most 10MB. The file is bound
+     to the variable "uploadedFile" -->
+<form role="form" name="form">
+  <div class="form-group">
+    <label for="file-field">Upload File</label>
+    <input type="file"
+       cam-variable-name="uploadedFile"
+       cam-variable-type="File"
+       cam-max-filesize="10000000" 
+       class="form-control"/>
+  </div>
+</form>
