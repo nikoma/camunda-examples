@@ -10,11 +10,11 @@
       <bpmn:incoming>SequenceFlow_1e43pht</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1e43pht" sourceRef="Task_0s97wca" targetRef="EndEvent_1uidntr" />
-    <bpmn:userTask id="Task_0rrl6yy" name="Crear lista" camunda:formKey="embedded:deployment:create-list.html">
+    <bpmn:userTask id="Task_0rrl6yy" name="Create list" camunda:formKey="embedded:deployment:create-list.html">
       <bpmn:incoming>SequenceFlow_06nhp16</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0gsx8as</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Task_0s97wca" name="Ver lista" camunda:formKey="embedded:deployment:view-list.html">
+    <bpmn:userTask id="Task_0s97wca" name="View list" camunda:formKey="embedded:deployment:view-list.html">
       <bpmn:incoming>SequenceFlow_0gsx8as</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1e43pht</bpmn:outgoing>
     </bpmn:userTask>
