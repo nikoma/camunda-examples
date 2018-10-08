@@ -1,0 +1,21 @@
+<form>
+    <script cam-script type="text/form-script">
+     camForm.on('form-loaded', function() {
+         camForm.variableManager.fetchVariable('topics');
+     });
+
+     camForm.on('variables-fetched', function() {
+         $scope.topics = camForm.variableManager.variableValue('topics');
+     });
+    </script>
+    <div class="control-group" >
+        <label class="control-label" for="topics" >Topics</label>
+        <div class="controls">
+            <ol id="topics">
+                <li ng-repeat="topic in topics">
+                    {{ topic.title }}
+                </li>
+            </ol>
+        </div>
+    </div>
+</form>
