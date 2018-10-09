@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1plaqf5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
+  <bpmn:process id="ConsultaStock" name="Consulta Stock" isExecutable="true" camunda:versionTag="2">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_17rp1wy</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_17rp1wy" sourceRef="StartEvent_1" targetRef="Task_15ixbam" />
+    <bpmn:serviceTask id="Task_15ixbam" name="Consultar stock producto">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">
+              <camunda:script scriptFormat="freemarker">http://localhost:8000/stock/${codigo}</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="nombre">S(response).prop('nombre').value()</camunda:outputParameter>
+            <camunda:outputParameter name="stock">
+              <camunda:script scriptFormat="javaScript">Number(S(response).prop('stock').value())</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17rp1wy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1xqyx4g</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1xqyx4g" sourceRef="Task_15ixbam" targetRef="Task_13puz6c" />
+    <bpmn:businessRuleTask id="Task_13puz6c" name="Hay stock suficiente?" camunda:resultVariable="stockSuficiente" camunda:decisionRef="stockMinimoPorTipo" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>SequenceFlow_1xqyx4g</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_06tifqb</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:endEvent id="EndEvent_0cd8n0s">
+      <bpmn:incoming>SequenceFlow_06tifqb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_06tifqb" sourceRef="Task_13puz6c" targetRef="EndEvent_0cd8n0s" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ConsultaStock">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="312" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_17rp1wy_di" bpmnElement="SequenceFlow_17rp1wy">
+        <di:waypoint x="348" y="120" />
+        <di:waypoint x="409" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0gzx2sh_di" bpmnElement="Task_15ixbam">
+        <dc:Bounds x="409" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1xqyx4g_di" bpmnElement="SequenceFlow_1xqyx4g">
+        <di:waypoint x="509" y="120" />
+        <di:waypoint x="570" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BusinessRuleTask_190od7i_di" bpmnElement="Task_13puz6c">
+        <dc:Bounds x="570" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0cd8n0s_di" bpmnElement="EndEvent_0cd8n0s">
+        <dc:Bounds x="731" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_06tifqb_di" bpmnElement="SequenceFlow_06tifqb">
+        <di:waypoint x="670" y="120" />
+        <di:waypoint x="731" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
