@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1ieyqrs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.3">
+  <bpmn:process id="ConsultaLibro" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_157hgfn</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_157hgfn" sourceRef="StartEvent_1" targetRef="Task_0hu4fgw" />
+    <bpmn:subProcess id="SubProcess_1dk4lud">
+      <bpmn:incoming>SequenceFlow_042r2di</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1i2fk9q</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${mails}" camunda:elementVariable="mail" />
+      <bpmn:startEvent id="StartEvent_13qm1rn">
+        <bpmn:outgoing>SequenceFlow_0hmd9an</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0hmd9an" sourceRef="StartEvent_13qm1rn" targetRef="Task_0i96p8t" />
+      <bpmn:sequenceFlow id="SequenceFlow_078gnph" sourceRef="Task_18pi9j9" targetRef="Task_0w20vu8" />
+      <bpmn:endEvent id="EndEvent_1rusrdq">
+        <bpmn:incoming>SequenceFlow_1dq7opq</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_1dq7opq" sourceRef="Task_0w20vu8" targetRef="EndEvent_1rusrdq" />
+      <bpmn:userTask id="Task_0i96p8t" name="Revisar si existe el libro">
+        <bpmn:extensionElements>
+          <camunda:formData>
+            <camunda:formField id="texto" label="Correo de respuesta" type="string" defaultValue="Buenas tardes" />
+            <camunda:formField id="correo" label="Solicitud" type="string" defaultValue="${mail.getText()}" />
+          </camunda:formData>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_0hmd9an</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_04zi8db</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:sendTask id="Task_18pi9j9" name="Responder correo">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="to">${mail.getFrom()}</camunda:inputParameter>
+              <camunda:inputParameter name="subject">${'RE: '.concat(mail.getSubject())}</camunda:inputParameter>
+              <camunda:inputParameter name="text">
+                <camunda:script scriptFormat="freemarker">${texto}</camunda:script>
+              </camunda:inputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>mail-send</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_04zi8db</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_078gnph</bpmn:outgoing>
+      </bpmn:sendTask>
+      <bpmn:serviceTask id="Task_0w20vu8" name="Borrar correo">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="mails">
+                <camunda:list>
+                  <camunda:value>${mail}</camunda:value>
+                </camunda:list>
+              </camunda:inputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>mail-delete</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_078gnph</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1dq7opq</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="SequenceFlow_04zi8db" sourceRef="Task_0i96p8t" targetRef="Task_18pi9j9" />
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_042r2di" sourceRef="Task_0hu4fgw" targetRef="SubProcess_1dk4lud" />
+    <bpmn:endEvent id="EndEvent_0mmgbjl">
+      <bpmn:incoming>SequenceFlow_1i2fk9q</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1i2fk9q" sourceRef="SubProcess_1dk4lud" targetRef="EndEvent_0mmgbjl" />
+    <bpmn:serviceTask id="Task_0hu4fgw" name="Revisar inbox" camunda:asyncBefore="true">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:outputParameter name="mails">${mails}</camunda:outputParameter>
+            <camunda:outputParameter name="Output_0787ukf" />
+          </camunda:inputOutput>
+          <camunda:connectorId>mail-poll</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_157hgfn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_042r2di</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ConsultaLibro">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="227" y="243" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_157hgfn_di" bpmnElement="SequenceFlow_157hgfn">
+        <di:waypoint x="263" y="261" />
+        <di:waypoint x="298" y="261" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="SubProcess_1dk4lud_di" bpmnElement="SubProcess_1dk4lud" isExpanded="true">
+        <dc:Bounds x="451" y="150" width="669" height="221" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_13qm1rn_di" bpmnElement="StartEvent_13qm1rn">
+        <dc:Bounds x="478" y="228" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_042r2di_di" bpmnElement="SequenceFlow_042r2di">
+        <di:waypoint x="398" y="261" />
+        <di:waypoint x="451" y="261" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0hmd9an_di" bpmnElement="SequenceFlow_0hmd9an">
+        <di:waypoint x="514" y="246" />
+        <di:waypoint x="564" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_078gnph_di" bpmnElement="SequenceFlow_078gnph">
+        <di:waypoint x="846" y="246" />
+        <di:waypoint x="924" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1rusrdq_di" bpmnElement="EndEvent_1rusrdq">
+        <dc:Bounds x="1064" y="228" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1dq7opq_di" bpmnElement="SequenceFlow_1dq7opq">
+        <di:waypoint x="1024" y="246" />
+        <di:waypoint x="1064" y="246" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0mmgbjl_di" bpmnElement="EndEvent_0mmgbjl">
+        <dc:Bounds x="1171" y="243" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1i2fk9q_di" bpmnElement="SequenceFlow_1i2fk9q">
+        <di:waypoint x="1120" y="261" />
+        <di:waypoint x="1171" y="261" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0mfp4ny_di" bpmnElement="Task_0hu4fgw">
+        <dc:Bounds x="298" y="221" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_06sn42f_di" bpmnElement="Task_0i96p8t">
+        <dc:Bounds x="564" y="206" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_08omkoh_di" bpmnElement="Task_18pi9j9">
+        <dc:Bounds x="746" y="206" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0efoopm_di" bpmnElement="Task_0w20vu8">
+        <dc:Bounds x="924" y="206" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_04zi8db_di" bpmnElement="SequenceFlow_04zi8db">
+        <di:waypoint x="664" y="246" />
+        <di:waypoint x="746" y="246" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
