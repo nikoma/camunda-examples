@@ -104,7 +104,6 @@ Mister Camunda</camunda:inputParameter>
         <camunda:connector>
           <camunda:inputOutput>
             <camunda:outputParameter name="mails">${mails}</camunda:outputParameter>
-            <camunda:outputParameter name="Output_0787ukf" />
           </camunda:inputOutput>
           <camunda:connectorId>mail-poll</camunda:connectorId>
         </camunda:connector>
