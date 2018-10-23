@@ -1,5 +1,17 @@
 # Configuración del servidor
 
+## Agregar dependencias
+
+Descargar los siguientes paquetes:
+- [Camunda BPM Mail Core](http://central.maven.org/maven2/org/camunda/bpm/extension/camunda-bpm-mail-core/1.2.0/camunda-bpm-mail-core-1.2.0.jar)
+- [Camunda BPM Connect Core](http://central.maven.org/maven2/org/camunda/connect/camunda-connect-core/1.1.0/camunda-connect-core-1.1.0.jar)
+- [JavaMail API](http://central.maven.org/maven2/com/sun/mail/javax.mail/1.5.5/javax.mail-1.5.5.jar)
+- [SLF4J API Module](http://central.maven.org/maven2/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar)
+
+Debes ubicarlos en '**camunda-bpm-tomcat-X.X.X/server/apache-tomcat-X.X.X/lib/**', donde '**X.X.X**' es la versión de Camunda y Tomcat que se están usando.
+
+
+
 ## Establecer configuración de Gmail
 
 Crear un archivo con el nombre 'mail-config.properties' y añadirle la siguiente información:
