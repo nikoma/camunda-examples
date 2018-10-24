@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_0dw270s" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="stockMinimoPorTipo" name="Stock Mínimo por Tipo">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" camunda:inputVariable="tipo">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+        <inputValues id="UnaryTests_15qm0ao">
+          <text>"toner","papel","carpeta","lapiz"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0ssuu9b" camunda:inputVariable="stock">
+        <inputExpression id="LiteralExpression_0am3zgg" typeRef="integer">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output_1" name="stockSuficiente" typeRef="boolean" />
+      <rule id="DecisionRule_1bplpob">
+        <inputEntry id="UnaryTests_083lzgo">
+          <text>"toner"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0l5tsst">
+          <text>&lt; 5</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_19yqz4y">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bcfg1e">
+        <inputEntry id="UnaryTests_00nbuta">
+          <text>"papel","carpeta"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w8d54w">
+          <text>&lt; 100</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16b018m">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1njpdxm">
+        <inputEntry id="UnaryTests_0qj316x">
+          <text>"lapiz"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tlpvyw">
+          <text>&lt; 50</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1g4pebq">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0e9dx16">
+        <inputEntry id="UnaryTests_1pqh41f">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wmks2k">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1j1ipgk">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
