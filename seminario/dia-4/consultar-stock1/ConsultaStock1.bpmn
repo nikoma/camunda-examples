@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1plaqf5" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
+  <bpmn:process id="ConsultaStock" name="Consulta Stock" isExecutable="true" camunda:versionTag="1">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_17rp1wy</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_17rp1wy" sourceRef="StartEvent_1" targetRef="Task_0zgjkal" />
+    <bpmn:userTask id="Task_0zgjkal" name="Ingresar código de producto">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="codigo" label="Código del producto" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_17rp1wy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0qhs01s</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0qhs01s" sourceRef="Task_0zgjkal" targetRef="Task_15ixbam" />
+    <bpmn:serviceTask id="Task_15ixbam" name="Consultar stock producto">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">
+              <camunda:script scriptFormat="freemarker">http://localhost:8000/stock/${codigo}</camunda:script>
+            </camunda:inputParameter>
+            <camunda:outputParameter name="nombre">S(response).prop('nombre').value()</camunda:outputParameter>
+            <camunda:outputParameter name="stock">
+              <camunda:script scriptFormat="javaScript">Number(S(response).prop('stock').value())</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0qhs01s</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ktqajy</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1ktqajy" sourceRef="Task_15ixbam" targetRef="Task_1pgwpzm" />
+    <bpmn:userTask id="Task_1pgwpzm" name="Mostrar stock">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="codigo" label="Código" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="nombre" label="Nombre" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="stock" label="Stock" type="long">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1ktqajy</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0w8vz4q</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_1bsot2x">
+      <bpmn:incoming>SequenceFlow_0w8vz4q</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0w8vz4q" sourceRef="Task_1pgwpzm" targetRef="EndEvent_1bsot2x" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ConsultaStock">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_17rp1wy_di" bpmnElement="SequenceFlow_17rp1wy">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="259" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1kxg9pr_di" bpmnElement="Task_0zgjkal">
+        <dc:Bounds x="259" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qhs01s_di" bpmnElement="SequenceFlow_0qhs01s">
+        <di:waypoint x="359" y="120" />
+        <di:waypoint x="409" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0gzx2sh_di" bpmnElement="Task_15ixbam">
+        <dc:Bounds x="409" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ktqajy_di" bpmnElement="SequenceFlow_1ktqajy">
+        <di:waypoint x="509" y="120" />
+        <di:waypoint x="559" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0uuyzpm_di" bpmnElement="Task_1pgwpzm">
+        <dc:Bounds x="559" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1bsot2x_di" bpmnElement="EndEvent_1bsot2x">
+        <dc:Bounds x="709" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0w8vz4q_di" bpmnElement="SequenceFlow_0w8vz4q">
+        <di:waypoint x="659" y="120" />
+        <di:waypoint x="709" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
