@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1773d40" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
+  <bpmn:process id="ReabastecerStock" name="ReabastecerStock" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_19a9tzn</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_19a9tzn" sourceRef="StartEvent_1" targetRef="Task_1phh1so" />
+    <bpmn:serviceTask id="Task_1phh1so" name="Obtener códigos de productos">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://localhost:8000/productos</camunda:inputParameter>
+            <camunda:outputParameter name="productos">
+              <camunda:script scriptFormat="javaScript">'stock').value())</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_19a9tzn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_15rguz4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:subProcess id="SubProcess_130x4mt">
+      <bpmn:incoming>SequenceFlow_15rguz4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0wdd6z1</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="productos" camunda:elementVariable="producto" />
+      <bpmn:startEvent id="StartEvent_0np4869">
+        <bpmn:outgoing>SequenceFlow_1qc804i</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_1qc804i" sourceRef="StartEvent_0np4869" targetRef="Task_0j0crmu" />
+      <bpmn:endEvent id="EndEvent_1l4g01e">
+        <bpmn:incoming>SequenceFlow_0ghtof3</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0pdq4l1" sourceRef="Task_0j0crmu" targetRef="ExclusiveGateway_168i8n3" />
+      <bpmn:callActivity id="Task_0j0crmu" name="Hay stock suficiente?" calledElement="ConsultaStock">
+        <bpmn:extensionElements>
+          <camunda:in sourceExpression="producto.codigo" target="codigo" />
+          <camunda:out source="stockSuficiente" target="stockSuficiente" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_1qc804i</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0pdq4l1</bpmn:outgoing>
+      </bpmn:callActivity>
+      <bpmn:exclusiveGateway id="ExclusiveGateway_168i8n3" name="Es necesario reponer?" default="SequenceFlow_1cwkm4p">
+        <bpmn:incoming>SequenceFlow_0pdq4l1</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_1cwkm4p</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_0zj6ice</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:sequenceFlow id="SequenceFlow_1cwkm4p" name="Sí" sourceRef="ExclusiveGateway_168i8n3" targetRef="Task_1g4fnbe" />
+      <bpmn:endEvent id="EndEvent_0xqj9ds">
+        <bpmn:incoming>SequenceFlow_0zj6ice</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0zj6ice" name="No" sourceRef="ExclusiveGateway_168i8n3" targetRef="EndEvent_0xqj9ds">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{stockSuficiente}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="SequenceFlow_0ghtof3" sourceRef="Task_1g4fnbe" targetRef="EndEvent_1l4g01e" />
+      <bpmn:serviceTask id="Task_1g4fnbe" name="Agregar al carro">
+        <bpmn:extensionElements>
+          <camunda:connector>
+            <camunda:inputOutput>
+              <camunda:inputParameter name="method">POST</camunda:inputParameter>
+              <camunda:inputParameter name="url">http://localhost:8000/compras/agregar</camunda:inputParameter>
+              <camunda:inputParameter name="payload">
+                <camunda:map>
+                  <camunda:entry key="id">${id}</camunda:entry>
+                  <camunda:entry key="codigo">${codigo}</camunda:entry>
+                </camunda:map>
+              </camunda:inputParameter>
+            </camunda:inputOutput>
+            <camunda:connectorId>http-connector</camunda:connectorId>
+          </camunda:connector>
+        </bpmn:extensionElements>
+        <bpmn:incoming>SequenceFlow_1cwkm4p</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0ghtof3</bpmn:outgoing>
+      </bpmn:serviceTask>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_15rguz4" sourceRef="Task_1phh1so" targetRef="SubProcess_130x4mt" />
+    <bpmn:sequenceFlow id="SequenceFlow_0wdd6z1" sourceRef="SubProcess_130x4mt" targetRef="Task_0chymdk" />
+    <bpmn:endEvent id="EndEvent_1jomokx">
+      <bpmn:incoming>SequenceFlow_0vky5q4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0vky5q4" sourceRef="Task_0chymdk" targetRef="EndEvent_1jomokx" />
+    <bpmn:serviceTask id="Task_0chymdk" name="Comprar productos">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="url">http://localhost:8000/compras/comprar</camunda:inputParameter>
+            <camunda:inputParameter name="payload">
+              <camunda:map>
+                <camunda:entry key="id">${id}</camunda:entry>
+              </camunda:map>
+            </camunda:inputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0wdd6z1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0vky5q4</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ReabastecerStock">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_19a9tzn_di" bpmnElement="SequenceFlow_19a9tzn">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="252" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1uk7w4i_di" bpmnElement="Task_1phh1so">
+        <dc:Bounds x="252" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_130x4mt_di" bpmnElement="SubProcess_130x4mt" isExpanded="true">
+        <dc:Bounds x="429" y="-39" width="628" height="321" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_15rguz4_di" bpmnElement="SequenceFlow_15rguz4">
+        <di:waypoint x="352" y="120" />
+        <di:waypoint x="429" y="121" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_0np4869_di" bpmnElement="StartEvent_0np4869">
+        <dc:Bounds x="497" y="107" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1qc804i_di" bpmnElement="SequenceFlow_1qc804i">
+        <di:waypoint x="533" y="125" />
+        <di:waypoint x="563" y="125" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1l4g01e_di" bpmnElement="EndEvent_1l4g01e">
+        <dc:Bounds x="973" y="107" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0pdq4l1_di" bpmnElement="SequenceFlow_0pdq4l1">
+        <di:waypoint x="663" y="125" />
+        <di:waypoint x="692" y="125" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_1oqlx5x_di" bpmnElement="Task_0j0crmu">
+        <dc:Bounds x="563" y="85" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_168i8n3_di" bpmnElement="ExclusiveGateway_168i8n3" isMarkerVisible="true">
+        <dc:Bounds x="692" y="100" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="685" y="63" width="64" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1cwkm4p_di" bpmnElement="SequenceFlow_1cwkm4p">
+        <di:waypoint x="742" y="125" />
+        <di:waypoint x="808" y="125" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="770" y="107" width="10" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0xqj9ds_di" bpmnElement="EndEvent_0xqj9ds">
+        <dc:Bounds x="973" y="217" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zj6ice_di" bpmnElement="SequenceFlow_0zj6ice">
+        <di:waypoint x="717" y="150" />
+        <di:waypoint x="717" y="235" />
+        <di:waypoint x="973" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="725" y="190" width="14" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ghtof3_di" bpmnElement="SequenceFlow_0ghtof3">
+        <di:waypoint x="908" y="125" />
+        <di:waypoint x="973" y="125" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0pnq2gy_di" bpmnElement="Task_1g4fnbe">
+        <dc:Bounds x="808" y="85" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wdd6z1_di" bpmnElement="SequenceFlow_0wdd6z1">
+        <di:waypoint x="1057" y="122" />
+        <di:waypoint x="1130" y="122" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1jomokx_di" bpmnElement="EndEvent_1jomokx">
+        <dc:Bounds x="1285" y="104" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0vky5q4_di" bpmnElement="SequenceFlow_0vky5q4">
+        <di:waypoint x="1230" y="122" />
+        <di:waypoint x="1285" y="122" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0dwi086_di" bpmnElement="Task_0chymdk">
+        <dc:Bounds x="1130" y="82" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
