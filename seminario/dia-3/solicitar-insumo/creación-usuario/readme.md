@@ -108,4 +108,5 @@ Tabla usuarios
 
 Tabla permisos
 | Application |             |             | Process Definition |             |             | Process Instance |             |             |
+| :---:       | :---:       | :---:       | :---:              | :---:       | :---:       | :---:            | :---:       | :---:       |
 | User ID     | Permissions | Resource ID | User ID            | Permissions | Resource ID | User ID          | Permissions | Resource ID |
