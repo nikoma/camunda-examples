@@ -96,7 +96,7 @@ Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con
 
 
 
-Tabla usuarios<br>
+
 | User ID | Password | Firstname | Lastname  |
 | :---:   | :---:    | :---:     | :---:     |
 | juan    | juan     | Juan      | Soto      |
@@ -106,7 +106,6 @@ Tabla usuarios<br>
 
 
 
-Tabla permisos<br>
 | Application |             |             | Process Definition |             |             | Process Instance |             |             |
 | :---:       | :---:       | :---:       | :---:              | :---:       | :---:       | :---:            | :---:       | :---:       |
 | User ID     | Permissions | Resource ID | User ID            | Permissions | Resource ID | User ID          | Permissions | Resource ID |
