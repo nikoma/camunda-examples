@@ -106,6 +106,6 @@ Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con
 
 
 ## Tabla autorizaciones
-|| Application |             |Process Definition|             | Process Instance|             |
+|   | Application |             |Process Definition|             | Process Instance|             |
 | :---:       | :---:       | :---:       | :---:              | :---:       | :---:       | :---:            | :---:       | :---:       |
 | User ID     | Permissions | Resource ID |Permissions | Resource ID |Permissions | Resource ID |
