@@ -1,4 +1,4 @@
-# Creación usuario para el ejemplo
+# Creación de usuarios y grupos
 Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con una cuenta de administrador.
 
 ## Usuario que iniciará el flujo
@@ -82,7 +82,7 @@ Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con
   - "Firstname" = "Alberto"
   - "Lastname" = "Díaz"
 - Click en "Create new user"
-## Agregar autorización
+### Agregar autorización
 - Ingresar al "Admin".
 - Click en "Authorizations".
 
