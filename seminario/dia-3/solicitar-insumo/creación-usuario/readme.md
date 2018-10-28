@@ -106,8 +106,9 @@ Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con
 
 
 ## Tabla autorizaciones
-|         | Application |             | Process Definition |             | Process Instance |             |
-| :---:   | :---:       | :---:       | :---:              | :---:       | :---:            | :---:       |
-| User ID | Permissions | Resource ID | Permissions        | Resource ID | Permissions      | Resource ID |
-|         |             |             |                    |             |                  |             |
-|         |             |             |                    |             |                  |             |
+|         | Application |             | Process Definition    |             | Process Instance |             |
+| :---:   | :---:       | :---:       | :---:                 | :---:       | :---:            | :---:       |
+| User ID | Permissions | Resource ID | Permissions           | Resource ID | Permissions      | Resource ID |
+|         |             |             |                       |             |                  |             |
+| juan    | ALL         | tasklist    | READ, CREATE_INSTANCE | *           | CREATE           | *           |
+| junior  | ACCESS      | tasklist    |                       |             |                  |             |
