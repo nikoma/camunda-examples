@@ -38,7 +38,7 @@ mail.attachment.path=attachments<br>
 mail.user=usuario@gmail.com<br>
 mail.password=contraseña<br>
 
-Escribir el usuario y la contraseña de la cuenta de correo gmail que se desea usar y guardar este archivo en '**camunda-bpm-tomcat-X.X.X/server/apache-tomcat-X.X.X/conf/**', donde '**X.X.X**' es la versión de Camunda y Tomcat que se están usando.
+Reemplazar "usuario" y "contraseña" con los datos de la cuenta de correo gmail que se desea usar y guardar este archivo en '**camunda-bpm-tomcat-X.X.X/server/apache-tomcat-X.X.X/conf/**', donde '**X.X.X**' es la versión de Camunda y Tomcat que se están usando.
 
 
 ## Configurar variable de entorno
