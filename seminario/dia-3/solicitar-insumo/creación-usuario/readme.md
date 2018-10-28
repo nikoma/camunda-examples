@@ -93,3 +93,19 @@ Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con
   - "Permissions" = "ACCESS"
   - "Resource ID" = "tasklist"
   - Click en el "visto".
+
+
+
+Tabla usuarios
+| User ID | Password | Firstname | Lastname  |
+| :---:   | :---:    | :---:     | :---:     |
+| juan    | juan     | Juan      | Soto      |
+| pedro   | pedro    | Pedro     | Monsalves |
+| diego   | diego    | Diego     | Díaz      |
+| junior  | junior   | Alberto   | Díaz      |
+
+
+
+Tabla permisos
+| Application |             |             | Process Definition |             |             | Process Instance |             |             |
+| User ID     | Permissions | Resource ID | User ID            | Permissions | Resource ID | User ID          | Permissions | Resource ID |
