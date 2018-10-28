@@ -47,6 +47,19 @@ Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con
   - "Group ID" = "bodega"
   - "Group name" = "Bodega"
 - Click en "Create new group".
+
+### Autorizaciones
+- Ingresar al "Admin".
+- Click en "Authorizations".
+
+#### Application
+- Click en "Create new authorization".
+- Llenar los siguientes atributos:
+  - "User / Group ID" = "bodega"
+  - "Permissions" = "ACCESS"
+  - "Resource ID" = "tasklist"
+  - Click en el "visto".
+
 ### Crear Usuarios
 - Ingresar al "Admin".
 - Click en "Users".
@@ -108,7 +121,7 @@ Para la creación de todos los usuarios siguientes, se debe estar "loggeado" con
 ## Tabla autorizaciones
 |         | Application |             | Process Definition    |             | Process Instance |             |
 | :---:   | :---:       | :---:       | :---:                 | :---:       | :---:            | :---:       |
-| User ID | Permissions | Resource ID | Permissions           | Resource ID | Permissions      | Resource ID |
-|         |             |             |                       |             |                  |             |
+| User/Group ID | Permissions | Resource ID | Permissions           | Resource ID | Permissions      | Resource ID |
+|   bodega      |   ACCESS          |    tasklist         |                       |             |                  |             |
 | juan    | ALL         | tasklist    | READ, CREATE_INSTANCE | *           | CREATE           | *           |
 | junior  | ACCESS      | tasklist    |                       |             |                  |             |
