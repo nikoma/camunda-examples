@@ -45,8 +45,8 @@ Escribir el usuario y la contraseña de la cuenta de correo gmail que se desea u
 
 ### Sistemas operarivos UNIX
 
-Abrir el archivo '**setenv.sh**', ubicado en '**camunda-bpm-tomcat-X.X.X/server/apache-tomcat-X.X.X/bin/**' y añadir `**export MAIL_CONFIG="$CATALINA_HOME/conf/mail-config.properties"**` en la primera línea.
+Abrir el archivo '**setenv.sh**', ubicado en '**camunda-bpm-tomcat-X.X.X/server/apache-tomcat-X.X.X/bin/**' y añadir `export MAIL_CONFIG="$CATALINA_HOME/conf/mail-config.properties"` en la primera línea.
 
 ### Windows
 
-Abrir el archivo '**setenv.bat**', ubicado en '**camunda-bpm-tomcat-X.X.X/server/apache-tomcat-X.X.X/bin/**' y añadir `**set "MAIL_CONFIG=%CATALINA_HOME%\conf\mail-config.properties"**` en la primera línea.
+Abrir el archivo '**setenv.bat**', ubicado en '**camunda-bpm-tomcat-X.X.X/server/apache-tomcat-X.X.X/bin/**' y añadir `set "MAIL_CONFIG=%CATALINA_HOME%\conf\mail-config.properties"` en la primera línea.
