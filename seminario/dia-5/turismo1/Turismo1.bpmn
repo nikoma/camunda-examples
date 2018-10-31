@@ -12,10 +12,10 @@
       <bpmn:outgoing>SequenceFlow_0uwrto6</bpmn:outgoing>
     </bpmn:inclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1qg1pk4" name="El pack contiene vuelo" sourceRef="ExclusiveGateway_0ujrjd1" targetRef="Task_0l0l0ca">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">$contieneVuelo</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contieneVuelo}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0uwrto6" name="El pack contiene estadía en hotel" sourceRef="ExclusiveGateway_0ujrjd1" targetRef="Task_1brvc1v">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">$contieneHotel</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${contieneHotel}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_01e85q0" sourceRef="Task_1brvc1v" targetRef="ExclusiveGateway_09ch8l3" />
     <bpmn:inclusiveGateway id="ExclusiveGateway_09ch8l3">
