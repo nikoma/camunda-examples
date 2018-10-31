@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0pzl4js" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
+  <bpmn:process id="ObtenerIndicadores" name="ObtenerIndicadores" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:initiator="starter">
+      <bpmn:outgoing>SequenceFlow_1grai7j</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1grai7j" sourceRef="StartEvent_1" targetRef="Task_10qxy2z" />
+    <bpmn:serviceTask id="Task_10qxy2z" name="Obtener valor UF y Dolar">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://indicadoresdeldia.cl/webservice/indicadores.json</camunda:inputParameter>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:outputParameter name="uf">
+              <camunda:script scriptFormat="javascript">S(response).prop('indicador').prop('uf').value()</camunda:script>
+            </camunda:outputParameter>
+            <camunda:outputParameter name="dolar">
+              <camunda:script scriptFormat="javascript">S(response).prop('moneda').prop('dolar').value()</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1grai7j</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ugkwl5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_00451ok">
+      <bpmn:incoming>SequenceFlow_0xm6sw2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0ugkwl5" sourceRef="Task_10qxy2z" targetRef="Task_05qwkpj" />
+    <bpmn:sequenceFlow id="SequenceFlow_0xm6sw2" sourceRef="Task_05qwkpj" targetRef="EndEvent_00451ok" />
+    <bpmn:userTask id="Task_05qwkpj" name="Mostrar indicadores" camunda:assignee="${starter}">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="uf" label="UF" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="dolar" label="Dolar" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0ugkwl5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xm6sw2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:textAnnotation id="TextAnnotation_0dxuimg">
+      <bpmn:text>out: uf, dolar</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_16vrd6x" sourceRef="Task_10qxy2z" targetRef="TextAnnotation_0dxuimg" />
+    <bpmn:textAnnotation id="TextAnnotation_06mvs1i">
+      <bpmn:text>url: http://indicadoresdeldia.cl/webservice/indicadores.json</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_00alk64" sourceRef="Task_10qxy2z" targetRef="TextAnnotation_06mvs1i" />
+    <bpmn:textAnnotation id="TextAnnotation_1tl78h1">
+      <bpmn:text>uf, dolar</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_04gn60v" sourceRef="Task_05qwkpj" targetRef="TextAnnotation_1tl78h1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ObtenerIndicadores">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1grai7j_di" bpmnElement="SequenceFlow_1grai7j">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="259" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0fx59vs_di" bpmnElement="Task_10qxy2z">
+        <dc:Bounds x="259" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_00451ok_di" bpmnElement="EndEvent_00451ok">
+        <dc:Bounds x="572" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ugkwl5_di" bpmnElement="SequenceFlow_0ugkwl5">
+        <di:waypoint x="359" y="120" />
+        <di:waypoint x="411" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xm6sw2_di" bpmnElement="SequenceFlow_0xm6sw2">
+        <di:waypoint x="511" y="120" />
+        <di:waypoint x="572" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0qdszmf_di" bpmnElement="Task_05qwkpj">
+        <dc:Bounds x="411" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0dxuimg_di" bpmnElement="TextAnnotation_0dxuimg">
+        <dc:Bounds x="232" y="200" width="100" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_16vrd6x_di" bpmnElement="Association_16vrd6x">
+        <di:waypoint x="298" y="160" />
+        <di:waypoint x="286" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_06mvs1i_di" bpmnElement="TextAnnotation_06mvs1i">
+        <dc:Bounds x="344" y="200" width="100" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_00alk64_di" bpmnElement="Association_00alk64">
+        <di:waypoint x="339" y="160" />
+        <di:waypoint x="368" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1tl78h1_di" bpmnElement="TextAnnotation_1tl78h1">
+        <dc:Bounds x="505" y="21" width="100" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_04gn60v_di" bpmnElement="Association_04gn60v">
+        <di:waypoint x="505" y="81" />
+        <di:waypoint x="538" y="51" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

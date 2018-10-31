@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_1rpdtp6" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Decision_13nyxhf" name="Otorga Crédito">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="Tipo de Cliente">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+        <inputValues id="UnaryTests_036u683">
+          <text>"estratégico","regular","nuevo"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0h4a6lb" label="Monto">
+        <inputExpression id="LiteralExpression_0r8okpl" typeRef="double">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="output_1" name="Decisión" typeRef="boolean" />
+      <rule id="DecisionRule_10qouav">
+        <inputEntry id="UnaryTests_0hc001z">
+          <text>"estratégico"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r82qt9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q5t7q6">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1o3nuin">
+        <inputEntry id="UnaryTests_1amrlkp">
+          <text>"regular"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14v4jdy">
+          <text>&lt;= 300000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q8pgev">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0xwuf6o">
+        <inputEntry id="UnaryTests_1y3knnd">
+          <text>"regular"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uy3qb9">
+          <text>&gt; 300000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1foomir">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1214976">
+        <inputEntry id="UnaryTests_1o2iyzr">
+          <text>"nuevo"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wcpgzb">
+          <text>&lt;= 50000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jog1te">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wpk8t1">
+        <inputEntry id="UnaryTests_0taelcv">
+          <text>"nuevo"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p6l032">
+          <text>&gt; 50000</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vosf55">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

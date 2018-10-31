@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_0az8r6z" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Decision_13nyxhf" name="Tipo de Cliente">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="antiguedad">
+        <inputExpression id="inputExpression_1" typeRef="double">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_070l6fi" label="deudor">
+        <inputExpression id="LiteralExpression_09cbrp6" typeRef="boolean">
+          <text>deudor</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Tipo de Cliente" typeRef="string">
+        <outputValues id="UnaryTests_0eiaccp">
+          <text>"estratégico","regular","nuevo"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_0g6zmel">
+        <inputEntry id="UnaryTests_1v3oqzm">
+          <text>&lt;5</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sh0zsp">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1h2mki5">
+          <text>"nuevo"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pivcjl">
+        <inputEntry id="UnaryTests_1147zk4">
+          <text>[5..10[</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0z32302">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1dc0yu5">
+          <text>"nuevo"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_13qxaok">
+        <inputEntry id="UnaryTests_14dyia2">
+          <text>[5..10[</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sutgel">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0u2ml4u">
+          <text>"regular"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09yx6xg">
+        <inputEntry id="UnaryTests_0ln7bc9">
+          <text>&gt;= 10</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_135zfn8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c6houg">
+          <text>"estratégico"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
